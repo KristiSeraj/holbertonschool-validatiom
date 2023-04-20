@@ -1,0 +1,39 @@
+---
+name: module3_task2
+on:
+  schedule:
+    - cron: "* * * * *"
+  push:
+    branches:
+      - 'main'
+      - 'master'
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v3
+
+      - name: Install tools
+        run: |
+          cd module3_task2
+          sudo ./setup.sh
+
+      - name: Check setup file
+        run: make lint -C module3_task2/
+
+      - name: Build
+        run: make build -C module3_task2/
+
+      - name: Validate
+        run: make validate -C module3_task2/
+
+      - name: Unit testing
+        run: make unit-tests -C module3_task2/
+
+      - name: Integration testing
+        run: make integration-tests -C module3_task2/
+
+      - name: Package
+        run: make package -C module3_task2/
+...
